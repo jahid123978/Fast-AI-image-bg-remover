@@ -2,7 +2,7 @@
 
 ![Background Removal Example](https://i.postimg.cc/W4XmgVCK/result2.png) <!-- Replace with actual image -->
 
-A high-performance background removal API built with Python, FastAPI, and state-of-the-art computer vision models. Easily integrate professional image processing capabilities into My applications.
+I’ve implemented two methods for background removal: the first uses the rembg library’s remove function to strip out the background, and the second leverages U²-Net–based models (u2net and u2netp) for more customizable, high‑quality masking. A high-performance background removal API built with Python, FastAPI, and state-of-the-art computer vision models. Easily integrate professional image processing capabilities into My applications. 
 
 ## Key Features
 - 🚀 Real-time background removal with GPU acceleration
@@ -59,6 +59,13 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 > **Note:** Models will be automatically downloaded on first use (approx. 500MB). Subsequent runs will use cached models.
+
+## Test API file
+To test the API functionality, use the following command:
+```bash
+# Comprehensive test suite for the Background Removal API
+Run with: pytest test_api.py -v
+```
 
 ## API Usage
 
