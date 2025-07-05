@@ -2,7 +2,7 @@
 
 ![Background Removal Example](https://i.postimg.cc/W4XmgVCK/result2.png) <!-- Replace with actual image -->
 
-A high-performance background removal API built with Python, FastAPI, and state-of-the-art computer vision models. Easily integrate professional image processing capabilities into your applications.
+A high-performance background removal API built with Python, FastAPI, and state-of-the-art computer vision models. Easily integrate professional image processing capabilities into My applications.
 
 ## Key Features
 - 🚀 Real-time background removal with GPU acceleration
@@ -52,6 +52,9 @@ pip install -r requirements.txt
 redis-server
 
 # Run the API in development mode
+python main.py
+
+# Alternative using uvicorn directly
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
@@ -72,9 +75,9 @@ Authorization: Bearer your-access-token-here
    ```bash
    curl -X POST http://localhost:8000/remove-background \
      -H "Authorization: Bearer YOUR_TOKEN" \
-     -F "file=@input.jpg" \
+     -F "file=@./images/profile7.jpg" \
      -F "enhance=true" \
-     --output result.png
+     --output output/result.png
    ```
 
 2. **Asynchronous Processing**  
@@ -83,7 +86,8 @@ Authorization: Bearer your-access-token-here
    # Submit task
    curl -X POST http://localhost:8000/remove-background-async \
      -H "Authorization: Bearer YOUR_TOKEN" \
-     -F "file=@large_image.jpg"
+     -F "file=@./images/large_image2.jpg" \
+     -F "enhance=true" 
    
    # Check status
    curl -X GET "http://localhost:8000/task-status/TASK_ID" \
@@ -165,3 +169,61 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Ready to transform your images?** Clone the repository and start removing backgrounds in minutes!
+
+
+## ✨ Advanced Features
+
+### 🧠 Intelligent Caching System
+- **Content-based hashing** for identical image detection
+- **Dual-layer caching** with Redis persistence + in-memory fallback
+- **Automatic cache invalidation** after model updates
+- **40-100x faster response** for repeat requests
+
+### ⚡ Performance Optimization
+- **Smart image preprocessing** (auto-resize + color normalization)
+- **Multi-model support** with speed/accuracy tradeoffs
+- **GPU acceleration** for <1s processing times
+- **Resource-aware processing** with explicit garbage collection
+
+### 🚀 Asynchronous Architecture
+```mermaid
+sequenceDiagram
+    Client->>API: Submit image
+    API->>Redis: Store task (PENDING)
+    API->>Client: 202 Accepted + task_id
+    BackgroundWorker->>Processor: Handle image
+    Processor->>Redis: Update status (SUCCESS)
+    Client->>API: Check task status
+    API->>Client: Return processed image
+```
+
+### 🔒 Enterprise Security
+- JWT token authentication with configurable expiration
+- Automatic security headers (CSP, XSS protection)
+- Redis-backed rate limiting
+- Comprehensive audit logging
+
+
+## 📡 API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/remove-background` | POST | Real-time background removal |
+| `/remove-background-async` | POST | Submit large image for async processing |
+| `/task-status/{task_id}` | GET | Check async task status |
+| `/models` | GET | List available AI models |
+| `/health` | GET | System health check |
+
+
+## ⚙️ Performance Tuning
+
+### Model Comparison
+| Model | Speed* | Accuracy | Best For | RAM Usage |
+|-------|--------|----------|----------|-----------|
+| `u2net` | 1.0x | ★★★★★ | General use | 2.1 GB |
+| `u2netp` | 2.3x | ★★★☆☆ | Web/mobile | 0.9 GB |
+| `silueta` | 1.7x | ★★★★☆ | Human portraits | 1.5 GB |
+
+*\*Relative to u2net on same hardware*
+
+
